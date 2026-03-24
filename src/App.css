@@ -1,38 +1,267 @@
-.App {
-  text-align: center;
+/* GLOBAL */
+body  {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* DASHBOARD */
+.dashboard {
+  padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* GRID */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: stretch;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.left-charts {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* subtle glow effect */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(99,102,241,0.15), transparent);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* TITLES */
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #cbd5f5;
+}
+
+/* CHART SIZE */
+.chart-container {
+  height: 260px;
+}
+
+/* PIE FIX */
+.pie-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.pie-card .chart-container {
+  flex: 1;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+/* 📊 INSIGHT CARD */
+.insight-card {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cbd5f5;
+}
+
+/* 📱 RESPONSIVE (VERY IMPORTANT) */
+@media (max-width: 900px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container {
+    height: 240px;
+  }
+}
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+.main-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+button {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4f46e5;
+}
+input, select {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+    display: flex;
+    gap: 20px;
+
+  }
+}
+* {
+  transition: all 0.2s ease;
+}
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #4f46e5;
+  border-radius: 10px;
+}
+.right-panel {
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.dark .right-panel {
+  background: rgba(255,255,255,0.05);
+}
+/* Fix text visibility in dark mode */
+.dark {
+  color: #ffffff;
+}
+
+/* Right panel (transactions section) */
+.dark .transactions,
+.dark .form-section {
+  color: #ffffff;
+}
+
+/* Inputs */
+.dark input,
+.dark select {
+  background-color: #1e293b;
+  color: white;
+  border: 1px solid #334155;
+}
+
+/* Placeholder text */
+.dark input::placeholder {
+  color: #94a3b8;
+}
+
+/* Transaction text */
+.dark .transaction-item {
+  color: #e2e8f0;
+}
+.left-charts {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.left-charts {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.pie-card {
+  flex: 1;
+}
+h2 {
+  transition: color 0.3s ease;
+}
+/* FULL SCREEN CENTER */
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+/* GLASS CARD */
+.auth-card {
+  width: 320px;
+  padding: 30px;
+  border-radius: 16px;
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  text-align: center;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* INPUTS */
+.auth-card input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* BUTTON */
+.auth-card button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* SWITCH TEXT */
+.auth-switch {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.auth-switch span {
+  color: #8b5cf6;
+  cursor: pointer;
 }

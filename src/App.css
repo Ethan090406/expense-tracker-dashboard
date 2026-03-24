@@ -3,6 +3,7 @@ body  {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #e5e7eb;
 }
 
 /* DASHBOARD */
@@ -26,23 +27,28 @@ body  {
 
 /* CARD */
 .card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
   border-radius: 16px;
   padding: 20px;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-  transition: 0.3s ease;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  transition: all 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 16px;
   margin-bottom: 20px;
 }
 
@@ -70,7 +76,8 @@ body  {
 
 /* CHART SIZE */
 .chart-container {
-  height: 260px;
+  height: 300px;
+  padding: 10px;
 }
 
 /* PIE FIX */
@@ -113,17 +120,20 @@ body  {
   gap: 20px;
 }
 button {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
   border: none;
   padding: 8px 14px;
   border-radius: 8px;
   color: white;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 button:hover {
-  background: #4f46e5;
+transform: scale(1.05);
+  opacity: 0.9;
 }
+
 input, select {
   width: 100%;
   margin-bottom: 10px;
@@ -264,4 +274,74 @@ h2 {
 .auth-switch span {
   color: #8b5cf6;
   cursor: pointer;
+}
+/* FILTER CONTAINER */
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+/* LABEL */
+.filter-label {
+  font-size: 13px;
+  color: #9ca3af;
+  letter-spacing: 0.5px;
+}
+
+/* WRAPPER */
+.custom-select-wrapper {
+  position: relative;
+  width: 200px;
+}
+
+/* SELECT */
+.custom-select {
+  width: 100%;
+  padding: 10px 40px 10px 14px;
+
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(12px);
+
+  color: #e5e7eb;
+  font-size: 14px;
+
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+/* HOVER */
+.custom-select:hover {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+/* FOCUS */
+.custom-select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* ARROW */
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  color: #9ca3af;
+  pointer-events: none;
+  font-size: 12px;
+}
+
+/* OPTIONAL GLOW EFFECT */
+.custom-select-wrapper:hover .select-arrow {
+  color: #6366f1;
 }

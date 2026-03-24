@@ -23,31 +23,9 @@ ChartJS.register(
   BarElement
 );
 
-const Charts = ({ transactions }) => {
+const Charts = ({ monthlyData, monthlyIncome, monthlyExpense, categoryData }) => {
 
-  const { pieData, lineData, barData, insight } = useMemo(() => {
-
-    const categories = {};
-    const monthlyIncome = {};
-    const monthlyExpense = {};
-
-    transactions.forEach((t) => {
-      const month = new Date(t.date).toLocaleString('default', {
-        month: 'short'
-      });
-
-      if (t.amount < 0) {
-        categories[t.category] =
-          (categories[t.category] || 0) + Math.abs(t.amount);
-      }
-
-      if (t.amount > 0) {
-        monthlyIncome[month] = (monthlyIncome[month] || 0) + t.amount;
-      } else {
-        monthlyExpense[month] =
-          (monthlyExpense[month] || 0) + Math.abs(t.amount);
-      }
-    });
+  const { pieData, lineData, barData, insight, months } = useMemo(() => {
 
     const months = [
       'Jan','Feb','Mar','Apr','May','Jun',
@@ -56,10 +34,10 @@ const Charts = ({ transactions }) => {
 
     /* ================= PIE ================= */
     const pieData = {
-      labels: Object.keys(categories),
+      labels: Object.keys(categoryData),
       datasets: [
         {
-          data: Object.values(categories),
+          data: Object.values(categoryData),
           backgroundColor: [
             '#6366f1',
             '#f97316',
@@ -72,71 +50,72 @@ const Charts = ({ transactions }) => {
       ]
     };
 
-    /* ================= LINE ================= */
+    /* ================= LINE (EXPENSE TREND) ================= */
     const lineData = {
       labels: months,
       datasets: [
         {
           label: "Expenses",
-          data: months.map(m => monthlyExpense[m] || 0),
+          data: monthlyExpense,
           borderColor: "#ef4444",
           backgroundColor: "rgba(239,68,68,0.2)",
           borderWidth: 3,
-          tension: 0.45,
-          pointRadius: 3,
-          pointBackgroundColor: "#ef4444",
+          tension: 0.4,
+          pointRadius: 2,
           fill: true
         }
       ]
     };
 
-    /* ================= BAR ================= */
+    /* ================= BAR (INCOME vs EXPENSE PER MONTH) ================= */
     const barData = {
       labels: months,
       datasets: [
         {
           label: "Income",
-          data: months.map(m => monthlyIncome[m] || 0),
+          data: monthlyIncome,
           backgroundColor: "#10b981",
           borderRadius: 6
         },
         {
           label: "Expense",
-          data: months.map(m => monthlyExpense[m] || 0),
+          data: monthlyExpense,
           backgroundColor: "#ef4444",
           borderRadius: 6
         }
       ]
     };
 
-    /* ================= INSIGHT ================= */
-    const values = months.map(m => monthlyExpense[m] || 0).filter(v => v > 0);
+    /* ================= INSIGHTS ================= */
+    const values = monthlyExpense.filter(v => v > 0);
 
-    let insight = "Add more data to see insights";
+    let insight = "Waiting for more activity...";
 
     if (values.length >= 2) {
       const last = values[values.length - 1];
       const prev = values[values.length - 2];
 
-      const change = ((last - prev) / prev) * 100;
+      if (prev !== 0) {
+        const change = ((last - prev) / prev) * 100;
 
-      insight =
-        change > 0
-          ? `📈 Spending increased by ${change.toFixed(1)}% this month`
-          : `📉 Spending decreased by ${Math.abs(change).toFixed(1)}% this month`;
+        insight =
+          change > 0
+            ? `📈 Spending increased by ${change.toFixed(1)}% recently`
+            : `📉 Spending decreased by ${Math.abs(change).toFixed(1)}% recently`;
+      }
     }
 
-    return { pieData, lineData, barData, insight };
+    return { pieData, lineData, barData, insight, months };
 
-  }, [transactions]);
+  }, [monthlyData, monthlyIncome, monthlyExpense, categoryData]);
 
   /* ================= OPTIONS ================= */
 
   const commonOptions = {
     maintainAspectRatio: false,
+    responsive: true,
     animation: {
-      duration: 1500,
-      easing: "easeInOutQuart"
+      duration: 800
     },
     plugins: {
       legend: {
@@ -145,7 +124,7 @@ const Charts = ({ transactions }) => {
         }
       },
       tooltip: {
-        backgroundColor: "#1f2937",
+        backgroundColor: "#111827",
         titleColor: "#fff",
         bodyColor: "#e5e7eb",
         borderColor: "#374151",
@@ -175,7 +154,7 @@ const Charts = ({ transactions }) => {
 
           {/* LINE */}
           <div className="card">
-            <h3>Spending Overview</h3>
+            <h3>Spending Trend</h3>
             <div className="chart-container">
               <Line
                 data={lineData}
@@ -189,7 +168,7 @@ const Charts = ({ transactions }) => {
 
           {/* BAR */}
           <div className="card">
-            <h3>Income vs Expense</h3>
+            <h3>Monthly Income vs Expense</h3>
             <div className="chart-container">
               <Bar data={barData} options={commonOptions} />
             </div>
@@ -199,16 +178,13 @@ const Charts = ({ transactions }) => {
 
         {/* RIGHT */}
         <div className="card pie-card">
-          <h3>Category Breakdown</h3>
+          <h3>Spending Categories</h3>
           <div className="chart-container">
             <Pie
               data={pieData}
               options={{
                 maintainAspectRatio: false,
-                animation: {
-                  animateRotate: true,
-                  duration: 1400
-                },
+                animation: { duration: 800 },
                 plugins: {
                   legend: {
                     labels: { color: "#e5e7eb" }

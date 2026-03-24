@@ -25,7 +25,7 @@ ChartJS.register(
 
 const Charts = ({ monthlyData, monthlyIncome, monthlyExpense, categoryData }) => {
 
-  const { pieData, lineData, barData, insight, months } = useMemo(() => {
+  const { pieData, lineData, barData, insight } = useMemo(() => {
 
     const months = [
       'Jan','Feb','Mar','Apr','May','Jun',
@@ -50,7 +50,7 @@ const Charts = ({ monthlyData, monthlyIncome, monthlyExpense, categoryData }) =>
       ]
     };
 
-    /* ================= LINE (EXPENSE TREND) ================= */
+    /* ================= LINE ================= */
     const lineData = {
       labels: months,
       datasets: [
@@ -67,7 +67,7 @@ const Charts = ({ monthlyData, monthlyIncome, monthlyExpense, categoryData }) =>
       ]
     };
 
-    /* ================= BAR (INCOME vs EXPENSE PER MONTH) ================= */
+    /* ================= BAR ================= */
     const barData = {
       labels: months,
       datasets: [
@@ -105,9 +105,9 @@ const Charts = ({ monthlyData, monthlyIncome, monthlyExpense, categoryData }) =>
       }
     }
 
-    return { pieData, lineData, barData, insight, months };
+    return { pieData, lineData, barData, insight };
 
-  }, [monthlyData, monthlyIncome, monthlyExpense, categoryData]);
+  }, [monthlyIncome, monthlyExpense, categoryData]); // ✅ FIXED
 
   /* ================= OPTIONS ================= */
 
